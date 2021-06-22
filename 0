@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+usage() {
+	echo '0 (url <url>|file <path>)'
+	exit 1
+}
+
+if ! command -v curl > /dev/null; then
+	echo 'curl not installed' >&2
+	exit 2
+fi
+
+if [ $# -ne 2 ]; then
+	usage
+fi
+
+case "$1" in
+	url)
+		curl --fail -F"shorten=$2" 'https://0x0.st'
+		exit $?
+		;;
+	file)
+		curl --fail -F"file=@$2" 'https://0x0.st'
+		exit $?
+		;;
+	*)
+		usage
+esac
